@@ -1,0 +1,156 @@
+local Players = game:GetService("Players")
+local StarterGui = game:GetService("StarterGui")
+
+local badWords = {
+-- عربي قديم + عامي
+"كسمك","كسمكوا","كسمككو","كسم","كس","كس امك","كس امكو","كس اختك","كس اختكو","كس مراتك",
+"نيك","نيك امك","نيكو","نيكك","نيك مراتك","نيك اختك","نيك حمار","منيك","منيوك",
+"عرص","عرصك","عرصكو","عرصكم","يا عرص","عرص ابن كلب","عرص ابن وسخة",
+"شرموط","شرموطة","شراميط","شرموطك","شرموطكو","شرموطكم","يا شرموط",
+"خول","خولك","خولكو","خولكم","يا خول","يا متناك","متناك","متناكة","متناكين",
+"كسختك","كسخ","كس اخت","كسي","كسيك","كسيكو","كس مك","كسامك","كسمكك",
+"زب","زبر","زبرك","زبركو","زبركم","زبي","زبك","زبو","زباين","زباب",
+"طيز","طيزك","طيزكو","طيزكم","طيزي","طيز امك","طيز اختك","طيز مراتك",
+"قحبة","قحاب","قحب","قحبتك","قحبكو","قحبكم","قحبك","قحبه",
+
+-- عربي حديث + جيل جديد
+"مكبوس","مكبوسك","مكبوسكو","مكبوسه","مكبووس","مكبوس يا كلب",
+"بعر","بعرك","بعره","بعرت","بعركم","يا بعرة","بعر امك",
+"مزز","مز","مزة","مزتك","موزة","موز","موزتك","يا موزة",
+"قحب","قحبة","قحاب","قحبك","قحبكو","قحبكوا","قحبات","قحبه",
+"طرطور","طرطير","طرطورك","طرطورو","طرطوركو","طرطور يا زبالة",
+"متخلف","متخلفك","متخلفين","يا متخلف","غبي","غبب","غبيك","غبية",
+"مخنث","مخانيث","مخنثك","مخنثين","مخنث يا وسخ",
+"قذر","قذرك","قذره","قذارتك","قذر اوي","قذر يا كلب",
+"فاشل","فاشلة","فشله","فاشلك","فاشلين","فاشل يا كسمك",
+
+-- تحريفات برموز وأرقام
+"k0smk","k$mk","k$ omk","k$omk","xsmk","x omk","xosmk","qsmk",
+"3rs","3r5","3r$","3rz","3rzz","3rzzz",
+"shrmo0t","shrm00t","$harmoot","sh@rmoot","shrm0tah",
+"5wal","kh0l","kh00l","khole","kh@l","kh0ly",
+"mny0k","mny00k","mnyook","m@nook","mny0kk",
+"nik0","neek0","n!k","n1kk","n!kk","nik@",
+"b!tch","b!tc#","b!ch","b1tch","b1tc#","bi+ch",
+"f@ggot","f4ggot","f@g","f4g","f@9got","fa99ot",
+"stf0","s+fu","shutup","shut f up","shutfup",
+"idi0t","1d10t","!d10t","1di0t","!diot","!dyot",
+"l0ser","losr","l0zr","lo0ser","loos3r","lu$er",
+
+-- إهانات ميمز/سوشيال
+"crybaby","cringe","cringy","noob","nub","nooby","n00b","n0ob",
+"toxic","toxik","tox!c","toxxic","2oxic",
+"kiddo","kid","kidzz","kidz","stupid kid","small kid",
+"trash","tr4sh","thrash","tresh","u trash",
+"dead game","dead kid","ded kid","ded game","ded noob",
+"clown","cl0wn","clawn","🤡","circus kid",
+"dogwater","dog watr","dogwatr","dog wter","ur dogwater",
+"ez","ezz","ezzz","ezzzz","ezpz","ez clap","ez win",
+"rekt","reckt","wrecked","rkt","get rekt",
+"lagger","laggy","lag kid","ur lagging","laggy trash",
+"bot","b0t","bott","botter","ur bot",
+"ratio","rat1o","r@tio","ratyo","ratsho",
+"cry more","cry moar","cry mo","keep crying",
+"mad","mad kid","mad bro","stay mad","copium",
+"skill issue","skill ishu","skill-ish","ur issue",
+
+-- إهانات بإيموجي
+"💩","🤡","👎","🖕","🖕🏻","🖕🏽","🖕🏿","👺","👹","👻","💀","☠️","🤖","🍼",
+"🥴","😵","🤮","🤢","🤬","😡","🤯","😤","😒","🙄","😹","🙈","🙉","🙊",
+
+-- عربي مختلط بالميمز
+"نووب","نوب","نوبز","نوبزز","نوبزات","نوبيا","نوب يا زبالة",
+"توكسيك","توكسك","توكسكك","توكسيككك","توكسيك اوي",
+"بوت","بووت","بوتات","بوتك","بوتكو","يا بوت",
+"ايزي","ايز","ايزيي","ايزيات","ايزي يا خول",
+"مهزوم","مهزومك","مهزومين","يا مهزوم","مهزوم يا كلب",
+"كراينج","كراي","كراي بايبي","كراي يوزلس","كراي نوب",
+"كلاون","كلاونات","كلاونك","كلاونكو","يا كلاون","كلاون يا وصخ",
+
+-- هجائن عربية + إنجليزي
+"كسنووب","كسمك نووب","نوب ابن كلب","noob حيوان","نوب وسخ","كس بوت","بوت زبالة",
+"كس تراش","trash ابن وسخة","كس ez","كس ريكت","كس كلاون","كس تروكسك","كس ديك",
+"ديك اوف","ديك هيد","dickhead","dik hed","d1ckh3ad","d1khed",
+"fuk ur mom","fuk u","fuk of","fok u","fuk yo","fok off",
+"ur mom gay","ur mom gae","urmom g@y","urmom gey","urm0m gei",
+"dad left","ur dad left","daddy left","ur dad milk","go milk dad",
+"cancer","c@ncer","kancer","kanser","c4ncer","c@nc3r",
+"aids","a!ds","ayds","aidz","a!dz","@ids",
+
+-- تحريفات 1337/leet speak
+"k5mk","k$mk","q$mk","qsmq","q$mq","x$mk","x0mk","x0smk",
+"4rs","@rs","@r$","@rz","4r5e","4rss","4rz",
+"sh4rm00t","sh@rm0ot","$h4rmot","5harmoot","shar mo0t",
+"kh0l","kh0ole","khule","k#ol","khol3","k#hole",
+"mn00k","mnyuk","mnyukkk","mnyk","mnyk0","mnykoo",
+"n1gga","n1gg4","n199a","n!9a","n!gg4","n9gga",
+"f4ggot","fa99ot","ph4ggot","f@g9t","f4g0t",
+"b1tchh","b!+ch","b!7ch","b17ch","b!tsh",
+"a$$","@ss","4ss","azzz","azzzhole","@sshole",
+
+-- إهانات جيل جديد/ميمز
+"ratio + l","ratio l","ratio kid","cope","copium kid","malder","mald","malding",
+"seethe","seething","stay mad","cry harder","cry moar","coping","cope harder",
+"ur short","short kid","smol kid","tiny kid","hobbit","oompa loompa",
+"bald","baldy","ur bald","hairless","chrome dome","egghead",
+"npc","npcee","npc kid","bot npc","scripted npc",
+"fortnite kid","fn kid","roblox kid","block game kid","lego kid",
+"discord mod","discord kitten","kitten","simp","s1mp","s!mp","sipm",
+"virgin","v!rgin","vrgn","vrg","not get bitches","no bitches",
+"incel","incell","insell","insl","inchcel","inchel",
+"nerd","n3rd","neard","nurdd","bookworm","4eyes",
+"geek","g33k","geeek","geak","g3k",
+"school shooter","skool shooter","shooter kid","columbine","pew pew kid",
+"pedo","p3do","peddo","paedo","pedo bear","pedophile",
+"rapist","r@pist","raepist","rap3r","r@p3r","r@pist",
+
+-- عربي مع رموز
+"عرصص","عر$","عrs","عررررررص","عُرص","3رص","عَرَص",
+"شرمووط","شرمووطه","شرموطوو","شرموطهه","شرم@ط","شرم0ط",
+"خولك","خولكو","خوليه","خووول","خ0ل","خ@ل","خوول",
+"منيووووك","مينييوك","منييوك","منوك","منوكك","منوكو","منيوك🐒",
+"قحباه","قحبةه","قحبوه","قحبب","قحبو","قحبتك","قحبتكو",
+
+-- إهانات بالإيموجي/كلمات جديدة
+"💀 kid","🤡 noob","🍼 baby","crybaby 🍼","trash 💩","dog 🐕","🐀 rat","🐍 snake","🐖 pig","🐒 monkey",
+"🤮 loser","🤢 u","👎 trash","🖕 clown","🖕 noob","👺 kid","☠️ ez","clown 🤡","bot 🤖","npc 🤖",
+"🥴 drunk","🥴 kid","🥴 idiot","🤯 dumb","🤬 toxic","😡 mad","😤 loser","🙄 cringe","🙈 blind","🙉 deaf","🙊 mute",
+
+-- إضافات سريعة للعدد
+"skid","skript kid","skidder","skiddie","script kiddie","skribidi","skibidi","toilet kid",
+"gyatt","rizzless","rizz kid","low rizz","ur gyatt","sigma wannabe","sigma kid","beta male","soyboy",
+"chad wannabe","fake chad","femboy","fem boi","trap","tr@p","trp",
+"sussy","sus","sosus","sus kid","imposter","among us kid","amogus",
+}
+
+StarterGui:SetCore("SendNotification", {
+    Title = "تطوير يوسف الزنكلوني",
+    Text = "Loaded",
+    Duration = 5
+})
+
+local function checkMessage(player, message)
+    local lowered = string.lower(message)
+    for _, badWord in ipairs(badWords) do
+        if string.find(lowered, badWord) then
+            StarterGui:SetCore("SendNotification", {
+                Title = "تطوير يوسف الزنكلوني",
+                Text = "تم اكتشاف إساءة\n"..player.Name..": "..message,
+                Duration = 8
+            })
+            print("بلاغ تلقائي: "..player.Name.." قال كلمة مسيئة. السبب: The player used obscene and offensive sexual language in chat.")
+        end
+    end
+end
+
+local function onPlayerAdded(player)
+    player.Chatted:Connect(function(message)
+        checkMessage(player, message)
+    end)
+end
+
+Players.PlayerAdded:Connect(onPlayerAdded)
+
+for _, player in ipairs(Players:GetPlayers()) do
+    onPlayerAdded(player)
+end
