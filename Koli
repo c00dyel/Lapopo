@@ -124,7 +124,7 @@ local badWords = {
 }
 
 StarterGui:SetCore("SendNotification", {
-    Title = "تطوير يوسف الزنكلوني",
+    Title = "🚨 تطوير يوسف الزنكلوني 🚨",
     Text = "Loaded",
     Duration = 5
 })
