@@ -135,7 +135,7 @@ local function checkMessage(player, message)
         if string.find(lowered, badWord) then
             StarterGui:SetCore("SendNotification", {
                 Title = "تطوير يوسف الزنكلوني",
-                Text = "تم اكتشاف إساءة\n"..player.Name..": "..message,
+                Text = "🚨 تم رصد إساءة\n"..player.Name..": "..message,
                 Duration = 8
             })
             print("بلاغ تلقائي: "..player.Name.." قال كلمة مسيئة. السبب: The player used obscene and offensive sexual language in chat.")
